@@ -1,1 +1,0 @@
-print("CHÀO MỪNG ĐẾN VỚI GITHUB")

@@ -27,31 +27,31 @@ Output
 1
 0.0000000000
 '''
-a, b, c = map(int, input().split())
+A, B, C = map(int, input().split())
 
-def format_num(x):
-    return "{0:.10f}".format(0.0 if abs(x) < 1e-12 else x)
-
-if a == 0:
-    if b == 0:
-        print(-1 if c == 0 else 0)
+if A == 0:
+    if B == 0:
+        if C == 0:
+            print(-1)
+        else:
+            print(0)
     else:
-        x = -c / b
+        x = -C / B
         print(1)
-        print(format_num(x))
+        print(f"{x:.10f}")
 else:
-    delta = b * b - 4 * a * c
+    delta = B * B - 4 * A * C
     if delta < 0:
         print(0)
-    elif abs(delta) < 1e-12:
-        x = -b / (2 * a)
+    elif delta == 0:
+        x = -B / (2 * A)
         print(1)
-        print(format_num(x))
+        print(f"{x:.10f}")
     else:
         sqrt_delta = delta ** 0.5
-        x1 = (-b + sqrt_delta) / (2 * a)
-        x2 = (-b - sqrt_delta) / (2 * a)
+        x1 = (-B - sqrt_delta) / (2 * A)
+        x2 = (-B + sqrt_delta) / (2 * A)
         x1, x2 = sorted([x1, x2])
         print(2)
-        print(format_num(x1))
-        print(format_num(x2))
+        print(f"{x1:.10f}")
+        print(f"{x2:.10f}")

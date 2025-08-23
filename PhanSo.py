@@ -1,0 +1,61 @@
+'''
+xây dựng 1 cấu trúc Phân Số (gồm tử và mẫu là số nguyên) với yêu cầu, xây dựng các hàm sau:
+- Nhập, xuất phân số
+- Hàm rút gọn.
+
+Viết chương trình nhập vào N phân số, yêu cầu tìm xuất phân số nhỏ nhất (sau khi tối giản)
+
+input:
+- Dòng 1: số N
+- N dòng tiếp theo, mỗi dòng gồm 2 số nguyên là tử và mẫu của 1 phân số
+
+output:
+Phân số nhỏ nhất (sau khi tối giản)
+
+ví dụ:
+input
+2
+1 2
+2 4
+
+output:
+1/2
+
+'''
+
+def gcd(a, b):
+    while b:
+        a, b = b, a % b
+    return abs(a)
+
+class PhanSo:
+    def __init__(self, tu = 0, mau = 1):
+        self.tu = tu
+        self.mau = mau
+        self.rut_gon()
+    
+    def rut_gon(self):
+        ucln = gcd(self.tu, self.mau)
+        self.tu //= ucln
+        self.mau //= ucln
+        if self.mau < 0:
+            self.tu = -self.tu
+            self.mau = -self.mau
+    
+    def __lt__(self, other):
+        return self.tu * other.mau < self.mau * other.tu
+    
+    def __str__(self):
+        return f"{self.tu}/{self.mau}"
+def nhap():
+    tu, mau = map(int, input().split())
+    return PhanSo(tu, mau)
+
+def main():
+    N = int(input())
+    phan_so_list = [nhap() for _ in range(N)]
+    phan_so_min = min(phan_so_list)
+    print(phan_so_min)
+
+if __name__ == "__main__":
+    main()

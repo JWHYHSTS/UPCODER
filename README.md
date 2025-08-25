@@ -24,5 +24,5 @@ Chào mừng đến với kho bài tập lập trình của mình! Dự án này
 - ✅ Làm quen với cú pháp và tư duy của nhiều ngôn ngữ.
 - ✅ Chuẩn bị nền tảng cho các dự án lớn hơn trong tương lai.
   
-- 🎮 Lập Trình Không Khó – Cùng Code Mỗi Ngày
+🎮 Lập Trình Không Khó – Cùng Code Mỗi Ngày
 ---

@@ -438,3 +438,163 @@ echo $d;
 // $mang = ['Hello', 'World', 'PHP'];
 // $result = implode(" ", $mang); // Điều kiện để nối các phần tử mảng thành chuỗi, cách nhau bởi dấu cách
 // echo $result; // In ra Hello World PHP
+
+
+// HÀM XỬ LÝ CHUỖI //
+
+// Nối chuỗi
+// $a = "Nhà bao";
+// $b = "việc!!!";
+// $c = $a . " " . $b;
+// echo $c;
+
+// 1. strlen($string): trả về độ dài của chuỗi
+// $str = "Hello World PHP";
+// echo strlen($str); // In ra là 15
+
+// 2. str_word_count($string): Đếm số từ trong chuỗi
+// $str = "Hello PVS";
+// echo str_word_count($str); // In ra là 2
+
+// 3. strrev($string): Đảo ngược chuỗi
+// $str = "12345";
+// echo strrev($str); // In ra là 54321
+
+// 4. strpos($string, $search): Tìm vị trí của chuỗi con trong chuỗi
+// $str = "Hello World";
+// echo strpos($str, "World"); // In ra là 6
+
+// 5. str_replace($search, $replace, $subject): Thay thế chuỗi con trong chuỗi
+// $str = "Hello World";
+// echo str_replace("World", "PVS", $str); // In ra là Hello PVS
+
+// 6. substr($string, $start, $length): Trích xuất một phần của chuỗi
+// $str = "Hello My Friend";
+// echo substr($str, 6, 2); // In ra là My
+
+// 7. strtolower($string): Chuyển chuỗi thành chữ thường
+// $str = "HELLO WORLD";
+// echo strtolower($str); // In ra là hello world
+
+// 8. strtoupper($string): Chuyển chuỗi thành chữ hoa
+// $str = "hello world";
+// echo strtoupper($str); // In ra là HELLO WORLD
+
+// 9. ucfirst($string): Chuyển chữ cái đầu tiên thành chữ hoa
+// $str = "hello world";
+// echo ucfirst($str); // In ra là Hello world
+
+// 10. ucwords($string): Chuyển chữ cái đầu tiên của mỗi từ thành chữ hoa
+// $str = "hello world z";
+// echo ucwords($str); // In ra là Hello World Z
+
+// 11. trim($string): Xóa khoảng trắng ở đầu và cuối chuỗi
+// $str = "   Hello World   ";
+// echo trim($str); // In ra là Hello World
+
+// 12. rtrim($string): Xóa khoảng trắng ở cuối chuỗi
+// $str = "   Hello World   ";
+// echo rtrim($str); // In ra là "   Hello World"
+
+// 13. ltrim($string): Xóa khoảng trắng ở đầu chuỗi
+// $str = "   Hello World   ";
+// echo ltrim($str); // In ra là "Hello World   "
+
+// 14. explode($delimiter, $string): Tách chuỗi thành mảng
+// $str = "Hello World PHP";
+// $result = explode(" ", $str);
+// foreach($result as $item){
+//     echo $item;
+//     echo "<br>";
+// } // In ra Hello World PHP (mỗi từ 1 dòng)
+// echo "<pre>";
+// print_r($result);
+// echo "</pre>";
+
+// 15. implode($delimiter, $array): Tạo chuỗi từ mảng
+// $arr = ['Hello', 'World', 'PHP'];
+// $result = implode(" ", $arr);
+// echo $result; // In ra Hello World PHP
+
+// 16. strcmp($string1, $string2): So sánh hai chuỗi
+// $str1 = "Hello";
+// $str2 = "Hello";
+// echo strcmp($str1, $str2); // In ra 0 (bằng nhau) // Nếu khác chuỗi thì in ra -1
+
+// 17. strcasecmp($string1, $string2): So sánh hai chuỗi (không phân biệt chữ hoa chữ thường)
+// $str1 = "Hello";
+// $str2 = "hello";
+// echo strcasecmp($str1, $str2); // In ra 0 (bằng nhau) // Nếu khác chuỗi thì in ra -1
+
+// 18. str_contains($haystack, $needle): Kiểm tra xem chuỗi có chứa chuỗi con hay không
+// $str = "Hello World";
+// echo str_contains($str, "World"); // In ra 1 (true) // Nếu không chứa thì in ra 0 (false)'
+
+// 19. str_pad($string, $length, $pad_string, $pad_type): Thêm ký tự vào chuỗi để đạt độ dài mong muốn
+// $str = "Hello";
+// echo str_pad($str, 10, "-=", STR_PAD_BOTH); // In ra -=Hello-=- (đệm chuỗi)
+
+// 20. strip_tabs($string): Xóa tất cả các tab trong chuỗi HTML
+// function strip_tabs($string) {
+//     return str_replace("\t", "", $string);
+// }
+// $str = '<strong><i>Tom & Jerry</i></strong>';
+// echo strip_tabs($str); // Chặn ko cho mở chỉnh sửa trên web (In ra Tom & Jerry)
+
+// 21. htmlspecialchars($string): Chuyển ký tự HTML thành mã 
+// $str = '<strong><i>Tom & Jerry</i></strong>';
+// echo htmlspecialchars($str); // In ra Tom &amp; Jerry
+// $str = '<script>alert("XSS Attack")</script>';
+// echo $str; // Báo động XSS Attack
+
+
+// CÁC HÀM MÃ HÓA //
+// 1. md5($string): Tính toán mã băm MD5 của chuỗi
+// $str = "Hello World";
+// echo md5($str); // In ra mã băm MD5
+
+// 2. sha1($string): Tính toán mã băm SHA-1 của chuỗi
+// $str = "Hello World";
+// echo sha1($str); // In ra mã băm SHA-1
+
+// 3. base64_encode($string): Mã hóa chuỗi thành Base64
+// $str = "Hello World";
+// echo base64_encode($str); // In ra SGVsbG8gV29ybGQ=
+
+// 4. base64_decode($string): Giải mã chuỗi Base64
+// $str = "SGVsbG8gV29ybGQ=";
+// echo base64_decode($str); // In ra Hello World
+
+
+// PHƯƠNG THỨC GET //
+// VD:
+// $ten = $_GET['ten'];
+// $tuoi = $_GET['tuoi'];
+// if (!empty($ten) && !empty($tuoi)) {
+//     echo "Tên: " . htmlspecialchars($ten) . "<br>";
+//     echo "Tuổi: " . htmlspecialchars($tuoi);
+// } else {
+//     echo "Vui lòng nhập đầy đủ thông tin.";
+// }
+
+// <form method = "GET" action="./result.php">
+//     <input type = "text" name = "ten" placeholder = "Nhập tên...">
+//     <input type = "text" name = "password" placeholder = "Nhập mật khẩu...">
+//     <button type = "submit">Gửi</button>
+// </form>
+
+// PHƯƠNG THỨC POST //
+/*
+- là phương thức gửi dữ liệu an toàn hơn GET vì dữ liệu không hiển thị trên URL
+- $ _POST
+- Ưa điểm của POST: cho phép gửi dữ liệu lớn hơn và phức tạp hơn (như file upload)
+- Nhược điểm: Không thể kiểm tra nhanh bằng URL
+*/
+
+// VD:
+
+// <form method = "POST" action="./result.php">
+//     <input type = "text" name = "ten" placeholder = "Nhập tên...">
+//     <input type = "text" name = "password" placeholder = "Nhập mật khẩu...">
+//     <button type = "submit">Gửi</button>
+// </form>

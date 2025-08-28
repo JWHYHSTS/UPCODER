@@ -598,3 +598,129 @@ echo $d;
 //     <input type = "text" name = "password" placeholder = "Nhập mật khẩu...">
 //     <button type = "submit">Gửi</button>
 // </form>
+
+
+// ĐỆ QUY TRONG PHP //
+// function giaiThua($n){
+//     if($n == 0 || $n == 1){
+//         return 1;
+//     }
+//     return $n * giaiThua($n - 1);
+// }
+// echo giaiThua(5); // In ra 120
+
+
+// BIẾN SIÊU TOÀN CỤC - $_REQUEST //
+// Dùng để lấy tất cả các biến $_GET, $_POST, $_COOKIE
+
+
+// XỬ LÝ VALIDATE TRONG PHP //
+/*
+- Xử lý dữ liệu từ form
+- Ngăn chặn tấn công XSS, SQL Injection
+- Đảm bảo dữ liệu đúng định dạng trước khi lưu vào CSDL
+=> Người dùng nhập dữ liệu vào form, dữ liệu sẽ được gửi lên server và xử lý bằng PHP
+*/
+// VD:
+
+// <form method="POST" action="./result.php">
+//     <input type="text" name="ten" placeholder="Nhập tên..."><br>
+//     <input type="text" name="email" placeholder="Nhập email..."><br>
+//     <input type="text" name="password" placeholder="Nhập mật khẩu..."><br>
+//     <button type="submit">Gửi</button>
+// </form>
+
+
+// DATETIME TRONG PHP //
+
+// //- Lấy thời gian hiện tại
+// echo date("Y-m-d H:i:s"); // In ra thời gian hiện tại
+// echo "<br>";
+// //- Chuyển đổi chuỗi thành đối tượng DateTime
+// $date = DateTime::createFromFormat("Y-m-d", "2023-03-15");
+// echo $date->format("d/m/Y"); // In ra 15/03/2023
+// echo "<br>";
+// //- Thao tác với thời gian
+// $date = new DateTime();
+// $date->modify("+1 day");
+// echo $date->format("Y-m-d"); // In ra ngày mai
+// echo "<br>";
+// //date_default_timezone_set("UTC"); // : Thiết lập múi giờ mặc định
+// date_default_timezone_set("Asia/Ho_Chi_Minh"); // UTC, GMT+7, Việt Nam
+// echo date("Y-m-d H:i:s"); // In ra thời gian hiện tại theo múi giờ đã thiết lập
+// echo "<br>";
+// // time(): Trả về thời gian Unix timestamp
+// echo time(); // In ra thời gian hiện tại tính bằng giây từ 1/1/1970
+
+
+// UPLOAD FILE TRONG PHP //
+// input type = "file"
+// $_FILE
+// Upload file thì method bắt buộc phải là POST
+// enctype="multipart/form-data"
+
+// <form method="POST" action="./result.php" enctype="multipart/form-data">
+//     <input type="file" name="file_upload">
+//     <button type="submit">Upload</button>
+// </form>
+
+
+// COOKIE TRONG PHP //
+// - Cookie là một tập tin nhỏ được lưu trữ trên máy tính của người dùng bởi trình duyệt web
+// - Cookie được sử dụng để lưu trữ thông tin người dùng và trạng thái phiên làm việc
+// - Cookie có thể có thời gian sống (expiration time) và có thể được thiết lập để tự động xóa sau một khoảng thời gian nhất định
+// - Để sử dụng cookie trong PHP, ta sử dụng hàm setcookie(name, value, expire, path, domain, secure, httponly)
+// name : tên cookie
+// value: giá trị cookie
+// expire: thời gian sống của cookie
+// path: đường dẫn mà cookie có hiệu lực
+// domain: miền mà cookie có hiệu lực
+// secure: chỉ gửi cookie qua HTTPS
+// httponly: chỉ cho phép truy cập cookie qua HTTP(S), không cho phép truy cập qua JavaScript
+// - get cookie
+// - xóa cookie
+// setcookie('John', '2000', time() + 3600, "/"); // Tạo cookie tên John có giá trị 2000, thời gian sống 1 giờ, có hiệu lực trên toàn bộ trang web
+
+
+// SESSION TRONG PHP //
+/*
+- Session là một cơ chế lưu trữ dữ liệu tạm thời trên server
+- Dữ liệu session được lưu trữ trên server và được xác định bằng một mã định danh (session ID) duy nhất
+- Session thường được sử dụng để lưu trữ thông tin người dùng trong quá trình truy cập web
+- Để sử dụng session trong PHP, ta sử dụng các hàm session_start(), $_SESSION, session_destroy()
+*/
+// session_start(); // Bắt đầu phiên làm việc
+// $_SESSION['username'] = 'JohnD'; // Tạo xong Session có tên username có giá trị JohnD
+
+// if(isset($_SESSION['username'])){
+//     echo $_SESSION['username']; // In ra giá trị của Session
+// }
+
+
+// CÁC LỖI ERROR TRONG PHP //
+/*
+- Notice: Thông báo lỗi nhẹ, thường xảy ra khi sử dụng biến chưa được khởi tạo
+- Warning: Cảnh báo lỗi, xảy ra khi có vấn đề nhưng kịch bản vẫn tiếp tục thực thi
+- Fatal error: Lỗi nghiêm trọng, xảy ra khi PHP không thể tiếp tục thực thi kịch bản
+- Parse error: Lỗi cú pháp, xảy ra khi có lỗi trong mã nguồn
+- Exception error: Lỗi ngoại lệ, xảy ra khi có lỗi trong quá trình thực thi (Lỗi được ném ra trong khối try-catch)
+*/
+
+// echo 'hello'; // Nếu ko có dấu ; ở cuối dòng thì sẽ báo lỗi Parse error 
+// john(); // Chưa được định nghĩa nên sẽ báo lỗi Fatal error
+
+// try{
+//     $age = -20;
+//     if($age < 18){
+//         throw new Exception("Tuổi ko hợp lệ");
+//     }
+//     echo "Tuổi hợp lệ";
+// }catch(Exception $e){
+//     echo "Lỗi: " . $e->getMessage();
+// }
+
+
+// TỔNG QUAN VỀ MYSQL VÀ NGÔN NGỮ TRUY VẤN
+// Client (người dùng) -> request (yêu cầu) -> Server (máy chủ) -> CSDL (lấy dữ liệu) -> response (phản hồi) -> Client (người dùng)
+// Ngôn ngữ truy vấn: SQL (Structured Query Language)   
+// phpmyadmin: công cụ quản lý cơ sở dữ liệu MySQL qua giao diện web

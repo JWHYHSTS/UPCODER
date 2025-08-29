@@ -12,3 +12,13 @@ dòng 1 : Xuất: "YES" nếu đó là số chính phương, ngược lại xu�
 input: 4
 output: YES
 '''
+import math
+
+with open("FSTREAM.inp", "r") as f:
+    n = int(f.readline().strip())
+
+sqrt_n = int(math.sqrt(n))
+result = "YES" if sqrt_n * sqrt_n == n else "NO"
+
+with open("FSTREAM.out", "w") as f:
+    f.write(result)

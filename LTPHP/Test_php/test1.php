@@ -802,3 +802,106 @@ echo $d;
 - LEFT JOIN: kết hợp dữ liệu từ hai bảng và trả về tất cả các bản ghi từ bảng bên trái, ngay cả khi không có bản ghi khớp trong bảng bên phải
 
 */
+
+/* 
+/// KẾT NỐI PHP VỚI MYSQL  ///
+- Sử dụng mysqli hoặc PDO để kết nối PHP với MySQL
+- Thao tác với cơ sở dữ liệu: thực hiện các truy vấn SQL để chèn, cập nhật, xóa và truy vấn dữ liệu
+- Xử lý lỗi: kiểm tra và xử lý các lỗi kết nối và truy vấn
+
+/// KẾT NỐI PHP VỚI MYSQL BẰNG PDO ///
+- PDO (PHP Data Objects) là một lớp mở rộng trong PHP cung cấp một giao diện thống nhất để truy cập cơ sở dữ liệu
+- Hỗ trợ nhiều hệ quản trị cơ sở dữ liệu khác nhau như MySQL, PostgreSQL, SQLite, SQL Server, v.v.
+- Cung cấp các tính năng bảo mật như prepared statements để ngăn chặn SQL injection
+- Cung cấp các phương thức để thực hiện các truy vấn SQL và xử lý kết quả
+
+/// INSERT và UPDATE DỮ LIỆU BẰNG PDO ///
+/// INSERT ///
+// Câu lệnh INSERT SQL
+    $sql = "INSERT INTO sinhvien(name) VALUES (:name)"; // :name --> placeholder
+    $stmt = $conn->prepare($sql); // Chuẩn bị câu lệnh SQL (tránh SQL injection) // $stmt nghĩa là statement dùng để thực thi câu lệnh SQL
+    $name = ['phat', 'tra', 'vy', 'dang'];
+    foreach($name as $item){
+        
+        $stmt->execute([
+            ':name' => $item
+        ]); // Thực thi câu lệnh SQL
+    }
+}
+/// UPDATE ///
+// Câu lệnh UPDATE SQL
+    // $sql = "UPDATE class SET name = :name WHERE id = :id";
+    $sql = "UPDATE sinhvien SET name = :name, trunggian_id = :trunggian_id WHERE id = :id";
+    // Chuẩn bị câu lệnh SQL
+    $tmp = $conn->prepare($sql); // $tmp nghĩa là template dùng để thực thi câu lệnh SQL
+
+    // Data update
+    // $name = 'COMP110';
+    // $id = 5;
+    $data = [
+        ['id' => 1, 'name' => 'phat', 'trunggian_id' => 2],
+        ['id' => 2, 'name' => 'tra', 'trunggian_id' => 5],
+    ];
+
+    // Thực thi câu lệnh SQL
+    // $tmp->execute([
+    //     ':name' => $name,
+    //     ':id' => $id
+    // ]);
+    foreach($data as $item){
+        $tmp->execute([
+            ':name' => $item['name'],
+            ':trunggian_id' => $item['trunggian_id'],
+            ':id' => $item['id']
+        ]);
+    }
+
+//////////////////////////////////////////////////////////////////////////////////// 
+- Sử dụng prepared statements để chèn và cập nhật dữ liệu một cách an toàn
+- Sử dụng các phương thức bindParam hoặc bindValue để liên kết các tham số trong câu lệnh SQL với các biến PHP
+- Thực thi câu lệnh SQL bằng phương thức execute
+- Xử lý lỗi bằng cách sử dụng khối try-catch để bắt và xử lý các ngoại lệ
+/// DELETE DỮ LIỆU BẰNG PDO ///
+- Câu lệnh DELETE SQL
+/// DELETE ///
+    // Câu lệnh DELETE SQL
+    $sql = "DELETE FROM trunggian WHERE sinhvien_id = :id"; // Xóa tất cả các bản ghi có sinhvien_id = 1 (Này có liên kết khóa ngoại nên xóa trước)
+    // Chuẩn bị câu lệnh SQL
+    $stmt = $conn->prepare($sql); // $stmt nghĩa là statement dùng để thực thi câu lệnh SQL
+    // Data delete
+    $id = 1;
+    // Thực thi câu lệnh SQL
+    $stmt->execute([
+        ':id' => $id
+    ]);
+
+
+*/
+$host = 'localhost'; // Địa chỉ máy chủ cơ sở dữ liệu
+$dbname = 'haid_123'; // Tên cơ sở dữ liệu
+$user_db = 'root'; // Tên người dùng cơ sở dữ liệu
+$pass_db = ''; // Mật khẩu người dùng cơ sở dữ liệu
+
+try {
+    $option = array (
+        PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8", // Thiết lập mã hóa ký tự UTF-8, hỗ trợ tiếng Việt
+        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION // Thiết lập chế độ báo lỗi, đẩy lỗi ra ngoại lệ
+    );
+    $conn = new PDO("mysql:host=$host;dbname=$dbname", $user_db, $pass_db, $option);
+    // TRUY VẤN 
+    
+    $sql = "SELECT * FROM sinhvien"; // Câu lệnh SQL
+    
+    $stmt = $conn->prepare($sql); // Chuẩn bị câu lệnh SQL
+    
+    $stmt->execute(); // Thực thi câu lệnh SQL
+
+    $result = $stmt->fetchAll(PDO::FETCH_ASSOC); // fetch đc dùng để lấy dữ liệu từ kết quả truy vấn, FETCH_ASSOC trả về mảng kết hợp (key là tên cột)
+    // Nếu dùng fetch thì chỉ lấy được 1 bản ghi, còn fetchAll thì lấy được tất cả các bản ghi
+    echo "<pre>";
+    print_r($result);
+    echo "</pre>";
+}catch (Exception $ex) {
+    echo "Lỗi kết nối: " . $ex->getMessage();
+}
+

@@ -724,3 +724,81 @@ echo $d;
 // Client (người dùng) -> request (yêu cầu) -> Server (máy chủ) -> CSDL (lấy dữ liệu) -> response (phản hồi) -> Client (người dùng)
 // Ngôn ngữ truy vấn: SQL (Structured Query Language)   
 // phpmyadmin: công cụ quản lý cơ sở dữ liệu MySQL qua giao diện web
+
+
+// CREATE DATABASE, CREATE TABLE 
+/*
+- Kiểu dữ liệu dùng trong SQL:
+    + INT: số nguyên
+    + VARCHAR: chuỗi ký tự có độ dài biến đổi
+    + TEXT: chuỗi ký tự có độ dài lớn
+    + DATE: ngày tháng
+    + DATETIME: ngày giờ
+    + TIMESTAMP: dấu thời gian
+    + FLOAT, DOUBLE: số thực
+    + BOOLEAN: giá trị đúng/sai
+
+- Thao tác với TABLE trong SQL:
+    + CREATE TABLE: tạo bảng
+    + ALTER TABLE: sửa bảng
+    + DROP TABLE: xóa bảng
+    + RENAME TABLE: đổi tên bảng
+    + TRUNCATE TABLE: xóa tất cả dữ liệu trong bảng nhưng giữ cấu trúc bảng
+    + INSERT INTO: chèn dữ liệu
+    + SELECT: truy vấn dữ liệu
+    + UPDATE: cập nhật dữ liệu
+    + DELETE: xóa dữ liệu
+    + WHERE: điều kiện lọc dữ liệu
+    + JOIN: kết hợp dữ liệu từ nhiều bảng
+    + ORDER BY: sắp xếp dữ liệu
+    + GROUP BY: nhóm dữ liệu
+    + HAVING: điều kiện lọc nhóm dữ liệu
+    + LIMIT: giới hạn số lượng bản ghi trả về
+    + OFFSET: bỏ qua một số bản ghi
+    + UNION: kết hợp kết quả từ nhiều truy vấn
+    + INDEX: tạo chỉ mục để tăng tốc truy vấn
+    + FOREIGN KEY: khóa ngoại để liên kết giữa các bảng
+    + PRIMARY KEY: khóa chính để xác định duy nhất một bản ghi trong bảng
+- Thao tác với DATABASE trong SQL:
+    + CREATE DATABASE: tạo cơ sở dữ liệu
+    + ALTER DATABASE: sửa cơ sở dữ liệu
+    + DROP DATABASE: xóa cơ sở dữ liệu
+    + RENAME DATABASE: đổi tên cơ sở dữ liệu
+- Khóa chính (Primary Key):
+    + Là một cột hoặc tập hợp các cột trong bảng dùng để xác định duy nhất mỗi bản ghi
+    + Không được phép có giá trị NULL và phải có giá trị duy nhất
+    + Mỗi bảng chỉ được phép có một khóa chính
+    + Tăng hiệu suất truy vấn và đảm bảo tính toàn vẹn dữ liệu
+- Khóa ngoại (Foreign Key):
+    + Là một cột hoặc tập hợp các cột trong bảng dùng để liên kết với khóa chính của bảng khác
+    + Giúp duy trì tính toàn vẹn dữ liệu giữa các bảng
+    + Cho phép thiết lập các ràng buộc như CASCADE, SET NULL, NO ACTION khi xóa hoặc cập nhật dữ liệu
+- Mối quan hê:
+    + Một-một (One-to-One): Mỗi bản ghi trong bảng A tương ứng với một bản ghi duy nhất trong bảng B
+    + Một-nhiều (One-to-Many): Mỗi bản ghi trong bảng A có thể liên kết với nhiều bản ghi trong bảng B
+    + Nhiều-nhiều (Many-to-Many): Mỗi bản ghi trong bảng A có thể liên kết với nhiều bản ghi trong bảng B và ngược lại, thường được thực hiện thông qua bảng trung gian
+*/
+
+/* 
+//////INSERT - UPDATE - DELETE/////////
+- INSERT INTO: chèn dữ liệu
+- UPDATE: cập nhật dữ liệu
+- DELETE: xóa dữ liệu
+- WHERE: điều kiện lọc dữ liệu
+- JOIN: kết hợp dữ liệu từ nhiều bảng
+*/
+
+/* 
+//// TRUY VẤN - SẮP XẾP - LIMIT DỮ LIỆU ////
+- SELECT * FROM <table_name>: truy vấn tất cả các cột
+- SELECT column1, column2 FROM <table_name>: truy vấn các cột cụ thể
+
+- ORDER BY column1 ASC|DESC: sắp xếp dữ liệu theo cột (ASC: tăng dần, DESC: giảm dần) // Nếu ko ghi ASC hay DESC thì mặc định là ASC
+- LIMIT number OFFSET number: giới hạn số lượng bản ghi trả về và bỏ qua một số bản ghi
+- WHERE condition: điều kiện lọc dữ liệu
+
+//// INNER JOIN VÀ LEFT JOIN TRONG SQL ////
+- INNER JOIN: kết hợp dữ liệu từ hai bảng và chỉ trả về các bản ghi có giá trị khớp trong cả hai bảng
+- LEFT JOIN: kết hợp dữ liệu từ hai bảng và trả về tất cả các bản ghi từ bảng bên trái, ngay cả khi không có bản ghi khớp trong bảng bên phải
+
+*/

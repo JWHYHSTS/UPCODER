@@ -2,6 +2,15 @@
 if(!defined('_HD')) {
     die('Bạn không có quyền truy cập!');
 }
+
+
+
+if(!isLogin()) {
+    redirect('?module=auth&action=login');
+}
+
+
+
 ?>
 <!doctype html>
 <html lang="en">

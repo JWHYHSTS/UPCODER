@@ -62,68 +62,71 @@ function sendMail($emailTo, $subject, $content)
 }
 
 // Kiểm tra phương thức post
-function isPost(){
-    if($_SERVER['REQUEST_METHOD'] == 'POST'){
+function isPost()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         return true;
     }
     return false;
 }
 
 // Kiểm tra phương thức get
-function isGet(){
-    if($_SERVER['REQUEST_METHOD'] == 'GET'){
+function isGet()
+{
+    if ($_SERVER['REQUEST_METHOD'] == 'GET') {
         return true;
     }
     return false;
 }
 
 // Lọc dữ liệu 
-function filterData($method = ''){
+function filterData($method = '')
+{
     $filterArr = [];
-    if(empty($method)){
-        if(isGet()){
-            if(!empty($_GET)){
-                foreach($_GET as $key => $value){
+    if (empty($method)) {
+        if (isGet()) {
+            if (!empty($_GET)) {
+                foreach ($_GET as $key => $value) {
                     $key = strip_tags($key);
-                    if(is_array($value)){
+                    if (is_array($value)) {
                         $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                    }else{
+                    } else {
                         $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS);
                     }
                 }
             }
         }
-        if(isPost()){
-            if(!empty($_POST)){
-                foreach($_POST as $key => $value){
+        if (isPost()) {
+            if (!empty($_POST)) {
+                foreach ($_POST as $key => $value) {
                     $key = strip_tags($key);
-                    if(is_array($value)){
+                    if (is_array($value)) {
                         $filterArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                    }else{
+                    } else {
                         $filterArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
                     }
                 }
             }
         }
-    }else{
-        if($method =='get'){
-            if(!empty($_GET)){
-                foreach($_GET as $key => $value){
+    } else {
+        if ($method == 'get') {
+            if (!empty($_GET)) {
+                foreach ($_GET as $key => $value) {
                     $key = strip_tags($key);
-                    if(is_array($value)){
+                    if (is_array($value)) {
                         $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                    }else{
+                    } else {
                         $filterArr[$key] = filter_var($_GET[$key], FILTER_SANITIZE_SPECIAL_CHARS);
                     }
                 }
             }
-        }else if($method =='post'){
-            if(!empty($_POST)){
-                foreach($_POST as $key => $value){
+        } else if ($method == 'post') {
+            if (!empty($_POST)) {
+                foreach ($_POST as $key => $value) {
                     $key = strip_tags($key);
-                    if(is_array($value)){
+                    if (is_array($value)) {
                         $filterArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY);
-                    }else{
+                    } else {
                         $filterArr[$key] = filter_input(INPUT_POST, $key, FILTER_SANITIZE_SPECIAL_CHARS);
                     }
                 }
@@ -135,8 +138,9 @@ function filterData($method = ''){
 
 
 // Hàm Validate email
-function validateEmail($email){
-    if(!empty($email)){
+function validateEmail($email)
+{
+    if (!empty($email)) {
         $checkEmail = filter_var($email, FILTER_VALIDATE_EMAIL);
     }
     return $checkEmail;
@@ -144,8 +148,9 @@ function validateEmail($email){
 
 
 // Hàm Validate int
-function validateInt($number){
-    if(!empty($number)){
+function validateInt($number)
+{
+    if (!empty($number)) {
         $checkNumber = filter_var($number, FILTER_VALIDATE_INT);
     }
     return $checkNumber;
@@ -153,19 +158,19 @@ function validateInt($number){
 
 
 // Hàm Validate phone 
-function isPhone($phone){
+function isPhone($phone)
+{
     $phoneFirst = false;
-    if($phone[0] == '0'){
+    if ($phone[0] == '0') {
         $phoneFirst = true;
         $phone = substr($phone, 1);
-
     }
     $checkPhone = false;
-    if(validateInt($phone)){
+    if (validateInt($phone)) {
         $checkPhone = true;
     }
 
-    if($phoneFirst & $checkPhone){
+    if ($phoneFirst & $checkPhone) {
         return true;
     }
     return false;
@@ -173,30 +178,48 @@ function isPhone($phone){
 
 
 // Thông báo lỗi
-function getMsg($msg, $type = 'success'){
-    echo '<div class = "announce-message alert alert-'.$type.'">'.$msg.'</div>';
+function getMsg($msg, $type = 'success')
+{
+    echo '<div class = "announce-message alert alert-' . $type . '">' . $msg . '</div>';
 }
 
 
 // Hiện thị Lỗi
-function formError($error, $fieldName){
-    return (!empty($error[$fieldName]) ? '<div class="error">'.reset($error[$fieldName]).'</div>' : false);
+function formError($error, $fieldName)
+{
+    return (!empty($error[$fieldName]) ? '<div class="error">' . reset($error[$fieldName]) . '</div>' : false);
 }
 
 // Hàm hiện thị lại dữ liệu cũ khi submit form
-function oldData($oldData, $fieldName){
+function oldData($oldData, $fieldName)
+{
     return !empty($oldData[$fieldName]) ? $oldData[$fieldName] : null;
 }
 
 
 // Hàm chuyển hướng trang
-function redirect($path, $pathFull = false){
-    if($pathFull){
+function redirect($path, $pathFull = false)
+{
+    if ($pathFull) {
         header("Location: .$path");
         exit();
-    }else{
+    } else {
         $url = _HOST_URL . $path;
         header("Location: $url");
         exit();
     }
+}
+
+// Hàm checkLogin
+function isLogin()
+{
+    $checkLogin = false;
+    $tokenLogin = getSessionFlash('token_login');
+    $checkToken = getOne("SELECT * FROM token_login WHERE token = '$tokenLogin'");
+    if (!empty($checkToken)) {
+            $checkLogin = true;
+    } else {
+            removeSession('token_login');
+    }
+    return $checkLogin;
 }

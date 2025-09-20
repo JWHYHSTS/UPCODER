@@ -11,7 +11,12 @@ layout('header-auth', $data);
 - Validate dữ liệu đầu vào
 - Check dữ liệu với database
 - Dữ liệu khớp --> tokenlogin --> insert vào token_login(kiểm tra đăng nhập ở các trang khác)
+- Kiểm tra đăng nhập
+  + Gán token login lên session
+  + Trong header -> Lấy token từ session về và so khớp với token trong bảng token_login
+  + Nếu khớp thì điều hướng trang đích (Không khớp thì xoá session và token_login)
 - Điều hướng về trang quản trị
+- Đăng nhập tài khoản ở 1 nơi tại 1 thời điểm.
 */
 
 // Khởi tạo mặc định để tránh Warning khi không phải POST
@@ -46,7 +51,7 @@ if (isPOST()) {
   }
 
   if (empty($errors)) {
-    
+
     $email = trim($filter['email'] ?? '');
     $password = $filter['password'] ?? '';
 
@@ -56,29 +61,43 @@ if (isPOST()) {
       // So sánh mật khẩu nhập với hash lưu trong DB
       $checkStatus = password_verify($password, $checkEmail['password']);
       if ($checkStatus) {
-        // tạo token và insert vào token_login
-        $token = sha1(uniqid() . time());
-        $data = [
-          'token' => $token,
-          'user_id' => $checkEmail['id'],
-          'created_at' => date('Y-m-d H:i:s')
-        ];
 
-        $insertToken = insert('token_login', $data);
-        if ($insertToken) {
-          // Lưu token vào cookie (hoặc session tuỳ cách auth của bạn)
-          setcookie('token_login', $token, time() + 30 * 24 * 3600, '/'); // ví dụ 30 ngày
-          setSessionFlash('msg', 'Đăng nhập thành công.');
-          setSessionFlash('msg_type', 'success');
-
-          // redirect tới dashboard và exit
-          header('Location: ./');
-          exit;
-        } else {
-          setSessionFlash('msg', 'Đăng nhập không thành công, vui lòng thử lại!');
+        // Tài khoản chỉ login 1 nơi
+        $user_id = $checkEmail['id'];
+        $checkAlready = getRows("SELECT * FROM token_login WHERE user_id = $user_id");
+        if ($checkAlready > 0) {
+          setSessionFlash('msg', 'Tài khoản đã đăng nhập ở nơi khác, vui lòng quay lại sau!');
           setSessionFlash('msg_type', 'danger');
-          header('Location: ' . _HOST_URL . '?module=auth&action=login');
-          exit;
+          redirect('?module=auth&action=login');
+        } else {
+          // tạo token và insert vào token_login
+          $token = sha1(uniqid() . time());
+
+          // Gán token lên session
+          setSessionFlash('token_login', $token);
+
+          $data = [
+            'token' => $token,
+            'user_id' => $checkEmail['id'],
+            'created_at' => date('Y-m-d H:i:s')
+          ];
+
+          $insertToken = insert('token_login', $data);
+          if ($insertToken) {
+            // Lưu token vào cookie (hoặc session tuỳ cách auth của bạn)
+            setcookie('token_login', $token, time() + 30 * 24 * 3600, '/'); // ví dụ 30 ngày
+            setSessionFlash('msg', 'Đăng nhập thành công.');
+            setSessionFlash('msg_type', 'success');
+
+            // redirect tới dashboard và exit
+            header('Location: ./');
+            exit;
+          } else {
+            setSessionFlash('msg', 'Đăng nhập không thành công, vui lòng thử lại!');
+            setSessionFlash('msg_type', 'danger');
+            header('Location: ' . _HOST_URL . '?module=auth&action=login');
+            exit;
+          }
         }
       } else {
         setSessionFlash('msg', 'Email hoặc mật khẩu không đúng!');
@@ -131,7 +150,7 @@ if (isPOST()) {
           class="img-fluid" alt="Sample image">
       </div>
       <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
-        <?php if(!empty($msg) && !empty($msg_type)) getMsg($msg, $msg_type) ?>
+        <?php if (!empty($msg) && !empty($msg_type)) getMsg($msg, $msg_type) ?>
         <form method="POST" action="">
           <div class="d-flex flex-row align-items-center justify-content-center justify-content-lg-start">
             <h2 class="fw-normal mb-5 me-3">Đăng nhập hệ thống</h2>
@@ -141,14 +160,14 @@ if (isPOST()) {
           <div data-mdb-input-init class="form-outline mb-4">
             <input type="email" name="email" id="form3Example3" class="form-control form-control-lg"
               placeholder="Địa chỉ email" value="<?php echo oldData($oldData, 'email'); ?>" />
-              <?php echo formError($errorArr, 'email'); ?>
+            <?php echo formError($errorArr, 'email'); ?>
           </div>
 
           <!-- Password input -->
           <div data-mdb-input-init class="form-outline mb-3">
             <input type="password" name="password" id="form3Example4" class="form-control form-control-lg"
               placeholder="Nhập mật khẩu" />
-              <?php echo formError($errorArr, 'password'); ?>
+            <?php echo formError($errorArr, 'password'); ?>
           </div>
 
           <div class="d-flex justify-content-between align-items-center">

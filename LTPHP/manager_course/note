@@ -1,0 +1,5 @@
+CODE TÍNH NĂNG ĐĂNG KÝ TÀI KHOẢN
+- Kiểm tra và xử lý dữ liệu đầu vào ở form đăng ký (dữ liệu sạch)
+- Insert dữ liệu vào bảng users
+- Gửi mail kích hoạt tài khoản (có mã hóa thông tin)
+- Người dùng click vào link kích hoạt để kích hoạt tài khoản --> xử lý acitve cho tài khoản
